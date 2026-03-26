@@ -1,18 +1,31 @@
+/* Variabel Warna */
 :root {
     --primary: #4a90e2;
     --bg: #f4f7f6;
     --text: #333;
     --white: #ffffff;
+    --card-border: #eeeeee;
+    --input-bg: #ffffff;
+}
+
+/* Class Tema Gelap */
+.dark-mode {
+    --bg: #121212;
+    --text: #e0e0e0;
+    --white: #1e1e1e;
+    --card-border: #333333;
+    --input-bg: #2d2d2d;
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', Roboto, sans-serif;
     background-color: var(--bg);
     color: var(--text);
     margin: 0;
     display: flex;
     justify-content: center;
     padding: 20px;
+    transition: background 0.3s ease, color 0.3s ease;
 }
 
 .container {
@@ -22,6 +35,7 @@ body {
     padding: 30px;
     border-radius: 15px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    transition: background 0.3s ease;
 }
 
 header h1 {
@@ -32,13 +46,27 @@ header h1 {
 
 .main-layout {
     display: grid;
-    grid-template-columns: 300px 1fr;
+    grid-template-columns: 280px 1fr;
     gap: 30px;
 }
 
-/* Kalender */
+/* Kalender & Tema Toggle */
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    border-radius: 30px;
+    border: none;
+    background: var(--primary);
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    z-index: 1000;
+}
+
 .calendar-section {
-    border-right: 1px solid #eee;
+    border-right: 1px solid var(--card-border);
     padding-right: 20px;
 }
 
@@ -47,8 +75,9 @@ header h1 {
     padding: 10px;
     border: 2px solid var(--primary);
     border-radius: 8px;
-    font-size: 1rem;
-    margin-bottom: 15px;
+    background: var(--input-bg);
+    color: var(--text);
+    margin-top: 10px;
 }
 
 /* To-Do List */
@@ -61,8 +90,10 @@ header h1 {
 #todoInput {
     flex: 1;
     padding: 12px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--card-border);
     border-radius: 8px;
+    background: var(--input-bg);
+    color: var(--text);
 }
 
 #addBtn {
@@ -80,44 +111,46 @@ header h1 {
 }
 
 .todo-item {
-    background: #fff;
+    background: var(--white);
     padding: 15px;
-    border: 1px solid #eee;
+    border: 1px solid var(--card-border);
     border-radius: 8px;
     margin-bottom: 10px;
     display: flex;
     align-items: center;
     cursor: grab;
-    transition: transform 0.2s;
+    transition: transform 0.1s;
 }
 
-.todo-item:active {
-    cursor: grabbing;
-}
+.todo-item:active { cursor: grabbing; }
 
 .todo-item input[type="checkbox"] {
     margin-right: 15px;
-    transform: scale(1.2);
+    width: 18px;
+    height: 18px;
 }
 
-.todo-text {
-    flex: 1;
-    font-size: 1rem;
-}
+.todo-text { flex: 1; }
 
-/* Styling Coretan */
 .completed .todo-text {
     text-decoration: line-through;
-    color: #888;
+    opacity: 0.6;
 }
 
-/* Ghost style saat di drag */
+.delete-btn {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    filter: grayscale(1);
+}
+
 .sortable-ghost {
-    opacity: 0.4;
-    background: #e1ecf8;
+    opacity: 0.3;
+    background: var(--primary);
 }
 
 @media (max-width: 768px) {
     .main-layout { grid-template-columns: 1fr; }
-    .calendar-section { border-right: none; border-bottom: 1px solid #eee; padding-bottom: 20px; }
+    .calendar-section { border-right: none; border-bottom: 1px solid var(--card-border); padding-bottom: 20px; }
 }

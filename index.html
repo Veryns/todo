@@ -3,28 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily Planner & Calendar</title>
+    <title>Plan of The Day</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 </head>
 <body>
 
+    <button class="theme-toggle" id="themeBtn">🌙 Mode Gelap</button>
+
     <div class="container">
         <header>
-            <h1>My Daily Planner</h1>
+            <h1>My Plan</h1>
         </header>
 
         <div class="main-layout">
             <aside class="calendar-section">
+                <label for="datePicker">Pilih Tanggal:</label>
                 <input type="date" id="datePicker">
                 <div class="date-display">
-                    <h2 id="selectedDateText">Pilih Tanggal</h2>
+                    <h2 id="selectedDateText">Memuat...</h2>
                 </div>
             </aside>
 
             <main class="todo-section">
                 <div class="input-group">
-                    <input type="text" id="todoInput" placeholder="Tambah tugas baru...">
+                    <input type="text" id="todoInput" placeholder="Tambah tugas baru untuk tanggal ini...">
                     <button id="addBtn">Tambah</button>
                 </div>
 

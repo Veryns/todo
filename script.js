@@ -1,4 +1,4 @@
-// Database sederhana berbasis objek (Key: Tanggal, Value: Array Tugas)
+// Database sederhana di LocalStorage
 let db = JSON.parse(localStorage.getItem('myTodoDB')) || {};
 
 const datePicker = document.getElementById('datePicker');
@@ -6,26 +6,40 @@ const selectedDateText = document.getElementById('selectedDateText');
 const todoInput = document.getElementById('todoInput');
 const addBtn = document.getElementById('addBtn');
 const todoList = document.getElementById('todoList');
+const themeBtn = document.getElementById('themeBtn');
 
-// Set tanggal hari ini sebagai default
+// 1. Logika Tema (Dark Mode)
+if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-mode');
+    themeBtn.innerText = '☀️ Mode Terang';
+}
+
+themeBtn.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    const isDark = document.body.classList.contains('dark-mode');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    themeBtn.innerText = isDark ? '☀️ Mode Terang' : '🌙 Mode Gelap';
+});
+
+// 2. Inisialisasi Default Tanggal
 const today = new Date().toISOString().split('T')[0];
 datePicker.value = today;
 
-// Inisialisasi SortableJS
-const sortable = new Sortable(todoList, {
+// 3. Fitur Drag and Drop (SortableJS)
+new Sortable(todoList, {
     animation: 150,
     ghostClass: 'sortable-ghost',
-    onEnd: function() {
-        saveCurrentOrder();
-    }
+    onEnd: saveCurrentOrder // Simpan urutan baru setiap kali selesai geser
 });
 
-// Fungsi menampilkan tugas berdasarkan tanggal
+// 4. Fungsi Menampilkan Tugas
 function renderTodos() {
     const date = datePicker.value;
-    selectedDateText.innerText = new Date(date).toLocaleDateString('id-ID', { 
-        weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' 
-    });
+    if (!date) return;
+
+    // Format tampilan tanggal
+    const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+    selectedDateText.innerText = new Date(date).toLocaleDateString('id-ID', options);
     
     todoList.innerHTML = '';
     const tasks = db[date] || [];
@@ -33,18 +47,17 @@ function renderTodos() {
     tasks.forEach((task, index) => {
         const li = document.createElement('li');
         li.className = `todo-item ${task.completed ? 'completed' : ''}`;
-        li.setAttribute('data-id', index);
         
         li.innerHTML = `
             <input type="checkbox" ${task.completed ? 'checked' : ''} onchange="toggleTask(${index})">
             <span class="todo-text">${task.text}</span>
-            <button onclick="deleteTask(${index})" style="margin-left:10px; border:none; background:none; cursor:pointer;">❌</button>
+            <button class="delete-btn" onclick="deleteTask(${index})">🗑️</button>
         `;
         todoList.appendChild(li);
     });
 }
 
-// Tambah tugas baru
+// 5. Tambah Tugas
 addBtn.addEventListener('click', () => {
     const text = todoInput.value.trim();
     const date = datePicker.value;
@@ -57,29 +70,33 @@ addBtn.addEventListener('click', () => {
     saveAndRender();
 });
 
-// Toggle Selesai (Coret)
+// 6. Coret Tugas (Toggle)
 window.toggleTask = (index) => {
     const date = datePicker.value;
     db[date][index].completed = !db[date][index].completed;
     saveAndRender();
 };
 
-// Hapus tugas
+// 7. Hapus Tugas
 window.deleteTask = (index) => {
     const date = datePicker.value;
     db[date].splice(index, 1);
     saveAndRender();
 };
 
-// Simpan urutan setelah di-drag
+// 8. Simpan Urutan (Drag & Drop)
 function saveCurrentOrder() {
     const date = datePicker.value;
+    const items = document.querySelectorAll('.todo-item');
     const newOrder = [];
-    document.querySelectorAll('.todo-item').forEach(item => {
-        const text = item.querySelector('.todo-text').innerText;
-        const completed = item.classList.contains('completed');
-        newOrder.push({ text, completed });
+    
+    items.forEach(item => {
+        newOrder.push({
+            text: item.querySelector('.todo-text').innerText,
+            completed: item.classList.contains('completed')
+        });
     });
+    
     db[date] = newOrder;
     localStorage.setItem('myTodoDB', JSON.stringify(db));
 }
@@ -89,8 +106,5 @@ function saveAndRender() {
     renderTodos();
 }
 
-// Event listener saat tanggal diubah
 datePicker.addEventListener('change', renderTodos);
-
-// Render awal
-renderTodos();
+renderTodos(); // Jalankan saat pertama kali buka
