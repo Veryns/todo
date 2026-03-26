@@ -1,6 +1,6 @@
-/* Variabel Warna */
 :root {
     --primary: #4a90e2;
+    --danger: #e74c3c;
     --bg: #f4f7f6;
     --text: #333;
     --white: #ffffff;
@@ -8,7 +8,6 @@
     --input-bg: #ffffff;
 }
 
-/* Class Tema Gelap */
 .dark-mode {
     --bg: #121212;
     --text: #e0e0e0;
@@ -18,14 +17,14 @@
 }
 
 body {
-    font-family: 'Segoe UI', Roboto, sans-serif;
+    font-family: 'Segoe UI', sans-serif;
     background-color: var(--bg);
     color: var(--text);
     margin: 0;
     display: flex;
     justify-content: center;
     padding: 20px;
-    transition: background 0.3s ease, color 0.3s ease;
+    transition: background 0.3s ease;
 }
 
 .container {
@@ -35,122 +34,55 @@ body {
     padding: 30px;
     border-radius: 15px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    transition: background 0.3s ease;
 }
 
-header h1 {
-    text-align: center;
-    color: var(--primary);
-    margin-bottom: 30px;
-}
+header h1 { text-align: center; color: var(--primary); }
 
-.main-layout {
-    display: grid;
-    grid-template-columns: 280px 1fr;
-    gap: 30px;
-}
+.main-layout { display: grid; grid-template-columns: 280px 1fr; gap: 30px; }
 
-/* Kalender & Tema Toggle */
 .theme-toggle {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    padding: 10px 20px;
-    border-radius: 30px;
-    border: none;
-    background: var(--primary);
-    color: white;
-    cursor: pointer;
-    font-weight: bold;
-    z-index: 1000;
+    position: fixed; top: 20px; right: 20px; padding: 10px 20px;
+    border-radius: 30px; border: none; background: var(--primary);
+    color: white; cursor: pointer; font-weight: bold;
 }
 
-.calendar-section {
-    border-right: 1px solid var(--card-border);
-    padding-right: 20px;
-}
+.calendar-section { border-right: 1px solid var(--card-border); padding-right: 20px; }
 
 #datePicker {
-    width: 100%;
-    padding: 10px;
-    border: 2px solid var(--primary);
-    border-radius: 8px;
-    background: var(--input-bg);
-    color: var(--text);
-    margin-top: 10px;
+    width: 100%; padding: 10px; border: 2px solid var(--primary);
+    border-radius: 8px; background: var(--input-bg); color: var(--text);
 }
 
-/* To-Do List */
-.input-group {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
+.input-group { display: flex; gap: 10px; margin-bottom: 10px; }
+
+#todoInput { flex: 1; padding: 12px; border: 1px solid var(--card-border); border-radius: 8px; background: var(--input-bg); color: var(--text); }
+
+#addBtn { padding: 10px 20px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; }
+
+/* Action Bar untuk Hapus Semua */
+.action-bar { display: flex; justify-content: flex-end; margin-bottom: 10px; height: 35px; }
+
+.clear-btn {
+    background: none; border: 1px solid var(--danger); color: var(--danger);
+    padding: 5px 12px; border-radius: 5px; cursor: pointer; font-size: 0.85rem;
+    transition: all 0.2s;
 }
 
-#todoInput {
-    flex: 1;
-    padding: 12px;
-    border: 1px solid var(--card-border);
-    border-radius: 8px;
-    background: var(--input-bg);
-    color: var(--text);
-}
+.clear-btn:hover { background: var(--danger); color: white; }
 
-#addBtn {
-    padding: 10px 20px;
-    background: var(--primary);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-#todoList {
-    list-style: none;
-    padding: 0;
-}
+#todoList { list-style: none; padding: 0; }
 
 .todo-item {
-    background: var(--white);
-    padding: 15px;
-    border: 1px solid var(--card-border);
-    border-radius: 8px;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    cursor: grab;
-    transition: transform 0.1s;
+    background: var(--white); padding: 15px; border: 1px solid var(--card-border);
+    border-radius: 8px; margin-bottom: 10px; display: flex; align-items: center; cursor: grab;
 }
 
 .todo-item:active { cursor: grabbing; }
 
-.todo-item input[type="checkbox"] {
-    margin-right: 15px;
-    width: 18px;
-    height: 18px;
-}
+.completed .todo-text { text-decoration: line-through; opacity: 0.6; }
 
 .todo-text { flex: 1; }
 
-.completed .todo-text {
-    text-decoration: line-through;
-    opacity: 0.6;
-}
+.delete-btn { border: none; background: none; cursor: pointer; filter: grayscale(1); }
 
-.delete-btn {
-    border: none;
-    background: none;
-    cursor: pointer;
-    font-size: 1.2rem;
-    filter: grayscale(1);
-}
-
-.sortable-ghost {
-    opacity: 0.3;
-    background: var(--primary);
-}
-
-@media (max-width: 768px) {
-    .main-layout { grid-template-columns: 1fr; }
-    .calendar-section { border-right: none; border-bottom: 1px solid var(--card-border); padding-bottom: 20px; }
-}
+@media (max-width: 768px) { .main-layout { grid-template-columns: 1fr; } .calendar-section { border: none; border-bottom: 1px solid var(--card-border); } }
